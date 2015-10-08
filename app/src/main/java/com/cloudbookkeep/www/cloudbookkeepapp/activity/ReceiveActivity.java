@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.cloudbookkeep.www.cloudbookkeepapp.R;
+import com.cloudbookkeep.www.cloudbookkeepapp.util.Toaster;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.Drive;
@@ -40,6 +41,7 @@ public class ReceiveActivity extends Activity {
 
     private static final int REQUEST_CODE_OPENER = 5;
     private static final int REQUEST_CODE_OPEN_BANK_QUERY = 6;
+    private static final int REQUEST_CODE_OPEN_REMINDERS = 7;
 
     private static final String REPORTS_FOLDER = "reports_folder_id";
     private static final String BANK_QUERY_FILE = "bank_query_id_file";
@@ -62,6 +64,7 @@ public class ReceiveActivity extends Activity {
      */
     private DriveId selectedFolderId_;
     private DriveId  bankQueryFileId_;
+    private DriveId  remindersFileId_;
 
     /**
      * Keeps the status whether change events are being listened to or not.
@@ -106,13 +109,23 @@ public class ReceiveActivity extends Activity {
         bankQueryBtn_.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toaster.makeLongToast(ReceiveActivity.this, getResources().getString(R.string.choose_bank_query_folder_tip), 10000);
                 openBankQueryFile();
+            }
+        });
+
+        reminderBtn_.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toaster.makeLongToast(ReceiveActivity.this, getResources().getString(R.string.choose_reminders_folder_tip), 10000);
+                openRemindersFile();
             }
         });
 
         viewReportsBtn_.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toaster.makeLongToast(ReceiveActivity.this, getResources().getString(R.string.choose_reports_folder_tip), 10000);
                 openReports();
 
             }
@@ -161,6 +174,16 @@ public class ReceiveActivity extends Activity {
                     bankView_.setVisibility(View.INVISIBLE);
                 }
                 break;
+
+            case REQUEST_CODE_OPEN_REMINDERS:
+                if (resultCode == RESULT_OK) {
+                    remindersFileId_= (DriveId) data.getParcelableExtra(
+                            OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
+                    DriveFile file =  remindersFileId_.asDriveFile();
+                    file.getMetadata(mGoogleApiClient)
+                            .setResultCallback(metadataCallback);
+                }
+                    break;
 
             default:
                 super.onActivityResult(requestCode, resultCode, data);
@@ -269,6 +292,33 @@ public class ReceiveActivity extends Activity {
                         try {
                             startIntentSenderForResult(
                                     intentSender, REQUEST_CODE_OPEN_BANK_QUERY, null, 0, 0, 0);
+                        } catch (IntentSender.SendIntentException e) {
+                            Log.i(TAG, "Failed to launch file chooser.");
+                        }
+                    }
+                });
+    }
+
+    // Opens Google Drive file chooser where user can open "To Do" Folder and select Google Form with to do tasks
+    private void openRemindersFile() {
+        Drive.DriveApi.newDriveContents(mGoogleApiClient)
+                .setResultCallback(new ResultCallback<DriveApi.DriveContentsResult>() {
+
+                    @Override
+                    public void onResult(DriveApi.DriveContentsResult result) {
+                        if (!result.getStatus().isSuccess()) {
+                            Log.i(TAG, "Failed to create new contents.");
+                            return;
+                        }
+
+                        // Create an intent for the file chooser, and start it.
+                        IntentSender intentSender = Drive.DriveApi
+                                .newOpenFileActivityBuilder()
+                                .setMimeType(new String[]{"application/vnd.google-apps.spreadsheet"})
+                                .build(mGoogleApiClient);
+                        try {
+                            startIntentSenderForResult(
+                                    intentSender, REQUEST_CODE_OPEN_REMINDERS, null, 0, 0, 0);
                         } catch (IntentSender.SendIntentException e) {
                             Log.i(TAG, "Failed to launch file chooser.");
                         }

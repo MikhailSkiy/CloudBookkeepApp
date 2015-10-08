@@ -1,5 +1,6 @@
 package com.cloudbookkeep.www.cloudbookkeepapp.service;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -51,6 +52,7 @@ public class MyDriveEventService extends DriveEventService {
         // after the user taps it, rather than remaining until it's explicitly dismissed.
         builder.setAutoCancel(true);
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
+        builder.setDefaults(Notification.DEFAULT_ALL);
 
         if (notificationType==1) {
             builder.setContentTitle("Reports notification");

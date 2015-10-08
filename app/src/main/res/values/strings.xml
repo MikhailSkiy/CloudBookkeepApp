@@ -34,7 +34,10 @@
     <string name="bank_query_text">Answer bank query</string>
     <string name="reminders_text">Reminders</string>
     <string name="reports_text">View reports</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="choose_bank_query_folder_tip">Please select "Bank query" folder and after query file</string>
+    <string name="choose_reminders_folder_tip">Please select "Reminders" folder and after file</string>
+    <string name="choose_reports_folder_tip">Please select "Reports" folder and after file</string>
 
     <!-- Values for settings activity -->
     <string name="enable_report_listening">Select folder for listening reports updates</string>
