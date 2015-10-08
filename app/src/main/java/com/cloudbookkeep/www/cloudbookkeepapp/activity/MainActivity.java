@@ -158,7 +158,11 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
         manageDriveBtn_.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDrive();
+                if (mGoogleApiClient.isConnected()) {
+                    openDrive();
+                } else {
+                    Toast.makeText(MainActivity.this, getString(R.string.client_must_be_connected), Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -253,7 +257,11 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
                 return true;
 
             case R.id.manage_drive_action:
-                openDrive();
+                if (mGoogleApiClient.isConnected()) {
+                    openDrive();
+                } else {
+                    Toast.makeText(MainActivity.this, getString(R.string.client_must_be_connected), Toast.LENGTH_LONG).show();
+                }
                 return true;
 
             case R.id.qbo_login_action:
