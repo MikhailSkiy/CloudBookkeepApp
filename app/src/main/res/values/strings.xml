@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Cloud Bookkeep App</string>
+    <string name="send_activity_title">Send</string>
+    <string name="receive_activity_title">Receive</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Values for main activity buttons -->
+    <string name="call_btn_text">Call</string>
+    <string name="visit_web_btn_text">Visit Website</string>
+    <string name="manage_drive_btn_text">Manage Drive</string>
+
+    <!-- Values for actionbar menu -->
+    <string name="visit_web_site_action">Visit website</string>
+    <string name="manage_drive_action">Manage drive</string>
+    <string name="qbo_login_action">QBO login</string>
+    <string name="call_action">Call</string>
+    <string name="settings_action">Settings</string>
+
+    <!-- Values for send activity -->
+    <string name="send_email_text">Send Email</string>
+    <string name="upload_file_to_drive_text">Upload File to Drive</string>
+    <string name="send_task_request_text">Send Task Request</string>
+
+    <string name="succesfull_uploading">The file was uploaded successfully</string>
+    <string name="choose_send_folder_tip">Please select "Send (To Do)" folder and after todo google form</string>
+    <string name="choose_file_name_tip">Please upload file in the recommended format (like 20/5/15.bankstatement.png</string>
+
+    <!-- Values for receive activity -->
+    <string name="bank_query_text">Answer bank query</string>
+    <string name="reminders_text">Reminders</string>
+    <string name="reports_text">View reports</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Values for settings activity -->
+    <string name="enable_report_listening">Select folder for listening reports updates</string>
+    <string name="enable_query_listening">Select file for listening queries updates</string>
+    <string name="reports_folder_listener_status">Reports folder was selected for listening updates</string>
+    <string name="queries_folder_listener_status">Bank query file was selected for listening updates</string>
+    <string name="folder_listener_tip">Please select folders for receiving updates. Reports - for reports updates. Bank query - for bank queries updates</string>
+
+    <!-- Values for service -->
+    <string name="id_key">id</string>
+
+
+</resources>
