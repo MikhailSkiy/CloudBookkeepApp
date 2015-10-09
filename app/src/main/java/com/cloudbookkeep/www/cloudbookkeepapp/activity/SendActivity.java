@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -58,7 +57,7 @@ public class SendActivity extends Activity {
 
     private void saveFileToDrive() {
         // Start by creating a new contents, and setting a callback.
-        Log.i(TAG, "Creating new contents.");
+
         final Bitmap image = mBitmapToSave;
         Drive.DriveApi.newDriveContents(mGoogleApiClient)
                 .setResultCallback(new ResultCallback<DriveApi.DriveContentsResult>() {
@@ -69,11 +68,11 @@ public class SendActivity extends Activity {
                         // and must
                         // fail.
                         if (!result.getStatus().isSuccess()) {
-                            Log.i(TAG, "Failed to create new contents.");
+
                             return;
                         }
                         // Otherwise, we can write our data to the new contents.
-                        Log.i(TAG, "New contents created.");
+
                         // Get an output stream for the contents.
                         OutputStream outputStream = result.getDriveContents().getOutputStream();
                         // Write the bitmap data from it.
@@ -82,7 +81,7 @@ public class SendActivity extends Activity {
                         try {
                             outputStream.write(bitmapStream.toByteArray());
                         } catch (IOException e1) {
-                            Log.i(TAG, "Unable to write file contents.");
+
                         }
                         // Create the initial metadata - MIME type and title.
                         // Note that the user will be able to change the title later.
@@ -98,7 +97,7 @@ public class SendActivity extends Activity {
                             startIntentSenderForResult(
                                     intentSender, REQUEST_CODE_CREATOR, null, 0, 0, 0);
                         } catch (IntentSender.SendIntentException e) {
-                            Log.i(TAG, "Failed to launch file chooser.");
+
                         }
                     }
                 });
@@ -121,7 +120,7 @@ public class SendActivity extends Activity {
             case REQUEST_CODE_CREATOR:
                 // Called after a file is saved to Drive.
                 if (resultCode == RESULT_OK) {
-                    Log.i(TAG, "Image successfully saved.");
+
                     mBitmapToSave = null;
                     Toast.makeText(this, getResources().getString(R.string.succesfull_uploading), Toast.LENGTH_LONG).show();
                 }
@@ -150,7 +149,7 @@ public class SendActivity extends Activity {
                         return;
                     }
                     Metadata metadata = result.getMetadata();
-                    Log.v("Link", metadata.getEmbedLink());
+
                     openGoogleForm(metadata.getEmbedLink());
                 }
             };
@@ -229,7 +228,7 @@ public class SendActivity extends Activity {
                     @Override
                     public void onResult(DriveApi.DriveContentsResult result) {
                         if (!result.getStatus().isSuccess()) {
-                            Log.i(TAG, "Failed to create new contents.");
+
                             return;
                         }
 
@@ -242,7 +241,7 @@ public class SendActivity extends Activity {
                             startIntentSenderForResult(
                                     intentSender, REQUEST_CODE_OPEN_TODO_FORM, null, 0, 0, 0);
                         } catch (IntentSender.SendIntentException e) {
-                            Log.i(TAG, "Failed to launch file chooser.");
+
                         }
                     }
                 });
@@ -257,7 +256,7 @@ public class SendActivity extends Activity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         } else {
-            Log.d("MainActivity", "Couldn't call because no receiving apps installed!");
+
         }
     }
 }

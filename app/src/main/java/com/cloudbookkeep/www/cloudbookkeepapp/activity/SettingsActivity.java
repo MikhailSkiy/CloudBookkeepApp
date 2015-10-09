@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -98,7 +97,7 @@ public class SettingsActivity extends Activity {
                         // and must
                         // fail.
                         if (!result.getStatus().isSuccess()) {
-                            Log.i(TAG, "Failed to create new contents.");
+
                             return;
                         }
 
@@ -111,7 +110,7 @@ public class SettingsActivity extends Activity {
                             startIntentSenderForResult(
                                     intentSender, REQUEST_CODE_OPENER, null, 0, 0, 0);
                         } catch (IntentSender.SendIntentException e) {
-                            Log.i(TAG, "Failed to launch file chooser.");
+
                         }
                     }
                 });
@@ -127,7 +126,7 @@ public class SettingsActivity extends Activity {
                         // and must
                         // fail.
                         if (!result.getStatus().isSuccess()) {
-                            Log.i(TAG, "Failed to create new contents.");
+
                             return;
                         }
 
@@ -140,7 +139,7 @@ public class SettingsActivity extends Activity {
                             startIntentSenderForResult(
                                     intentSender, REQUEST_CODE_QUERY, null, 0, 0, 0);
                         } catch (IntentSender.SendIntentException e) {
-                            Log.i(TAG, "Failed to launch file chooser.");
+
                         }
                     }
                 });
@@ -161,7 +160,7 @@ public class SettingsActivity extends Activity {
                     selectedFolderId_ = (DriveId) data.getParcelableExtra(OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
                     // Write id of folder in SharedPreferences
                     writeId(REPORTS_FOLDER, selectedFolderId_.toString());
-                    Log.i("Id", selectedFolderId_.toString());
+
                     toggle();
                 }
                 break;
@@ -171,7 +170,7 @@ public class SettingsActivity extends Activity {
                     bankQueryFileId_ = (DriveId) data.getParcelableExtra(OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
                     // Write Id in SharedPreferences
                     writeId(BANK_QUERY_FILE, bankQueryFileId_.toString());
-                    Log.i("Id", bankQueryFileId_.toString());
+
                     toggle2();
                 }
                 break;
@@ -190,7 +189,7 @@ public class SettingsActivity extends Activity {
         }
         synchronized (mSubscriptionStatusLock) {
             DriveFolder folder = Drive.DriveApi.getFolder(mGoogleApiClient, selectedFolderId_);
-            Log.d(TAG, "Starting to listen to the file changes.");
+
             // file.addChangeListener(mGoogleApiClient, changeListener);
             folder.addChangeSubscription(mGoogleApiClient);
             isSubscribed = true;
@@ -223,7 +222,7 @@ public class SettingsActivity extends Activity {
         }
         synchronized (mSubscriptionStatusLock) {
             DriveFile file = Drive.DriveApi.getFile(mGoogleApiClient, bankQueryFileId_);
-            Log.d(TAG, "Starting to listen to the file changes.");
+
             // file.addChangeListener(mGoogleApiClient, changeListener);
             file.addChangeSubscription(mGoogleApiClient);
             isSubscribed = true;

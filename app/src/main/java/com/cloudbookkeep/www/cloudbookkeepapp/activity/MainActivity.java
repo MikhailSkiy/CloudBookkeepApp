@@ -71,11 +71,9 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
                         // and must
                         // fail.
                         if (!result.getStatus().isSuccess()) {
-                            Log.i(TAG, "Failed to create new contents.");
                             return;
                         }
                         // Otherwise, we can write our data to the new contents.
-                        Log.i(TAG, "New contents created.");
 
                         // Get an output stream for the contents.
                         OutputStream outputStream = result.getDriveContents().getOutputStream();
@@ -85,7 +83,7 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
                         try {
                             outputStream.write(bitmapStream.toByteArray());
                         } catch (IOException e1) {
-                            Log.i(TAG, "Unable to write file contents.");
+
                         }
 
                         // Create the initial metadata - MIME type and title.
@@ -102,7 +100,7 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
                             startIntentSenderForResult(
                                     intentSender, REQUEST_CODE_CREATOR, null, 0, 0, 0);
                         } catch (SendIntentException e) {
-                            Log.i(TAG, "Failed to launch file chooser.");
+
                         }
                     }
                 });
@@ -206,7 +204,6 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         // Called whenever the API client fails to connect.
-        Log.i(TAG, "GoogleApiClient connection failed: " + result.toString());
         if (!result.hasResolution()) {
             // show the localized error dialog.
             GoogleApiAvailability.getInstance().getErrorDialog(this, result.getErrorCode(), 0).show();
@@ -219,13 +216,11 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
         try {
             result.startResolutionForResult(this, REQUEST_CODE_RESOLUTION);
         } catch (SendIntentException e) {
-            Log.e(TAG, "Exception while starting resolution activity", e);
         }
     }
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        Log.i(TAG, "API client connected.");
         if (mBitmapToSave == null) {
             // This activity has no UI of its own. Just start the camera.
 
@@ -236,7 +231,6 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
 
     @Override
     public void onConnectionSuspended(int cause) {
-        Log.i(TAG, "GoogleApiClient connection suspended");
     }
 
 
@@ -288,7 +282,6 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         } else {
-            Log.d("MainActivity", "Couldn't call because no receiving apps installed!");
             Toast.makeText(this, "Couldn't call because no receiving apps installed!", Toast.LENGTH_SHORT);
         }
     }
@@ -302,7 +295,6 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
             startIntentSenderForResult(
                     intentSender, REQUEST_CODE_MANAGE, null, 0, 0, 0);
         } catch (SendIntentException e) {
-            Log.w(TAG, "Unable to send intent", e);
         }
     }
 
@@ -312,7 +304,6 @@ public class MainActivity extends Activity implements ConnectionCallbacks,
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         } else {
-            Log.d("MainActivity", "Couldn't call because no receiving apps installed!");
             Toast.makeText(this, "Couldn't call because no receiving apps installed!", Toast.LENGTH_SHORT);
         }
     }

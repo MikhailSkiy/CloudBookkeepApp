@@ -11,7 +11,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -199,7 +198,6 @@ public class ReceiveActivity extends Activity {
                         return;
                     }
                     Metadata metadata = result.getMetadata();
-                    Log.v("Link", metadata.getEmbedLink());
                     openGoogleForm(metadata.getEmbedLink());
                 }
             };
@@ -211,7 +209,6 @@ public class ReceiveActivity extends Activity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         } else {
-            Log.d("MainActivity", "Couldn't call because no receiving apps installed!");
         }
     }
 
@@ -221,11 +218,9 @@ public class ReceiveActivity extends Activity {
                 @Override
                 public void onResult(MetadataResult result) {
                     if (!result.getStatus().isSuccess()) {
-                        Log.i(TAG, "Failed to get metadata.");
                         return;
                     }
                     Metadata metadata = result.getMetadata();
-                    Log.i(TAG, "Metadata was retrieved successfully.");
                     openPdf(metadata.getWebContentLink());
                 }
             };
@@ -238,7 +233,6 @@ public class ReceiveActivity extends Activity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         } else {
-            Log.d("MainActivity", "Couldn't call because no receiving apps installed!");
         }
     }
 
@@ -253,7 +247,6 @@ public class ReceiveActivity extends Activity {
                         // and must
                         // fail.
                         if (!result.getStatus().isSuccess()) {
-                            Log.i(TAG, "Failed to create new contents.");
                             return;
                         }
 
@@ -266,7 +259,6 @@ public class ReceiveActivity extends Activity {
                             startIntentSenderForResult(
                                     intentSender, REQUEST_CODE_OPENER, null, 0, 0, 0);
                         } catch (IntentSender.SendIntentException e) {
-                            Log.i(TAG, "Failed to launch file chooser.");
                         }
                     }
                 });
@@ -280,7 +272,6 @@ public class ReceiveActivity extends Activity {
                     @Override
                     public void onResult(DriveApi.DriveContentsResult result) {
                         if (!result.getStatus().isSuccess()) {
-                            Log.i(TAG, "Failed to create new contents.");
                             return;
                         }
 
@@ -293,7 +284,6 @@ public class ReceiveActivity extends Activity {
                             startIntentSenderForResult(
                                     intentSender, REQUEST_CODE_OPEN_BANK_QUERY, null, 0, 0, 0);
                         } catch (IntentSender.SendIntentException e) {
-                            Log.i(TAG, "Failed to launch file chooser.");
                         }
                     }
                 });
@@ -307,7 +297,6 @@ public class ReceiveActivity extends Activity {
                     @Override
                     public void onResult(DriveApi.DriveContentsResult result) {
                         if (!result.getStatus().isSuccess()) {
-                            Log.i(TAG, "Failed to create new contents.");
                             return;
                         }
 
@@ -320,7 +309,6 @@ public class ReceiveActivity extends Activity {
                             startIntentSenderForResult(
                                     intentSender, REQUEST_CODE_OPEN_REMINDERS, null, 0, 0, 0);
                         } catch (IntentSender.SendIntentException e) {
-                            Log.i(TAG, "Failed to launch file chooser.");
                         }
                     }
                 });
@@ -340,7 +328,6 @@ public class ReceiveActivity extends Activity {
                         // and must
                         // fail.
                         if (!result.getStatus().isSuccess()) {
-                            Log.i(TAG, "Failed to create new contents.");
                             return;
                         }
 
@@ -353,7 +340,6 @@ public class ReceiveActivity extends Activity {
                             startIntentSenderForResult(
                                     intentSender, REQUEST_CODE_OPENER, null, 0, 0, 0);
                         } catch (IntentSender.SendIntentException e) {
-                            Log.i(TAG, "Failed to launch file chooser.");
                         }
                     }
                 });
@@ -371,13 +357,13 @@ public class ReceiveActivity extends Activity {
                 public void onResult(MetadataBufferResult result) {
                     if (!result.getStatus().isSuccess()) {
                         Toast.makeText(ReceiveActivity.this, "Problem while retrieving folders", Toast.LENGTH_LONG);
-                        Log.v(TAG, "Problem while retrieving folders");
+
                         return;
                     }
 
                     for (int i = 0; i < result.getMetadataBuffer().getCount(); i++) {
                         String originalFileName = result.getMetadataBuffer().get(i).getOriginalFilename();
-                        Log.v(TAG, originalFileName);
+
                         if (originalFileName.equals("Reports")) {
                             folderId_ = result.getMetadataBuffer().get(i).getDriveId();
                             DriveFolder reportsFolder = Drive.DriveApi.getFolder(mGoogleApiClient, folderId_);
@@ -395,21 +381,21 @@ public class ReceiveActivity extends Activity {
         public void onResult(MetadataBufferResult metadataBufferResult) {
             if (!metadataBufferResult.getStatus().isSuccess()) {
                 Toast.makeText(ReceiveActivity.this, "Problem while retrieving files", Toast.LENGTH_LONG);
-                Log.v(TAG, "Problem while retrieving files");
+
                 return;
             }
             String filesCount = Integer.toString(metadataBufferResult.getMetadataBuffer().getCount());
-            Log.v(TAG, filesCount);
+
 
             // for (int i=0;i<metadataBufferResult.getMetadataBuffer().getCount();i++){
             String reportFileName = metadataBufferResult.getMetadataBuffer().get(0).getOriginalFilename();
-            Log.v("File name", reportFileName);
+
 
             String reportFileTitle = metadataBufferResult.getMetadataBuffer().get(0).getTitle();
-            Log.v("File title", reportFileTitle);
+
 
             String fileLink = metadataBufferResult.getMetadataBuffer().get(0).getWebViewLink();
-            Log.v("File link", fileLink);
+
             // }
 
             openGoogleSheets(fileLink);
@@ -423,7 +409,7 @@ public class ReceiveActivity extends Activity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         } else {
-            Log.d("MainActivity", "Couldn't call because no receiving apps installed!");
+
         }
     }
 
@@ -469,11 +455,11 @@ public class ReceiveActivity extends Activity {
         synchronized (mSubscriptionStatusLock) {
             DriveFile file = selectedFolderId_.asDriveFile();
             if (!isSubscribed) {
-                Log.d(TAG, "Starting to listen to the file changes.");
+
                 file.addChangeListener(mGoogleApiClient, changeListener);
                 isSubscribed = true;
             } else {
-                Log.d(TAG, "Stopping to listen to the file changes.");
+
                 file.removeChangeListener(mGoogleApiClient, changeListener);
                 isSubscribed = false;
             }

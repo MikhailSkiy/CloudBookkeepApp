@@ -28,7 +28,6 @@ public class MyDriveEventService extends DriveEventService {
     @Override
     public void onChange(ChangeEvent event){
 
-        Log.d("MyDriveEventService", "Change event: " + event);
         DriveId resourseId = event.getDriveId();
         String id = event.getDriveId().toString();
 
