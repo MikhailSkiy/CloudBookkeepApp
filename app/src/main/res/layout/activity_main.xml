@@ -15,14 +15,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/grey"
+        android:layout_margin="4dp"
+        android:background="@color/primary"
         android:text="Send"/>
 
     <Button
         android:id="@+id/receive_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/grey"
+        android:background="@color/primary"
+        android:layout_margin="4dp"
         android:layout_weight="1"
         android:text="Receive"/>
 
@@ -35,24 +37,28 @@
             android:id="@+id/call_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/primary"
             android:layout_weight="0.5"
-            android:background="@drawable/grey"
+            android:layout_margin="4dp"
+
             android:text="@string/call_btn_text"/>
 
         <Button
             android:id="@+id/site_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/primary"
             android:layout_weight="0.5"
-            android:background="@drawable/grey"
+            android:layout_margin="4dp"
             android:text="@string/visit_web_btn_text"/>
 
         <Button
             android:id="@+id/manage_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:background="@color/primary"
             android:layout_weight="0.5"
-            android:background="@drawable/grey"
+            android:layout_margin="4dp"
             android:text="@string/manage_drive_btn_text"/>
 
 

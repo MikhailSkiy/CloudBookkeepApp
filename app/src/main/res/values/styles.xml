@@ -9,4 +9,7 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+
+    <color name="primary">#00BCD4</color>
+
 </resources>
