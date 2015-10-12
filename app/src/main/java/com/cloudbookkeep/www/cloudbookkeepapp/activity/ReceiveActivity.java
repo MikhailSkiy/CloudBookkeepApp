@@ -44,6 +44,7 @@ public class ReceiveActivity extends Activity {
 
     private static final String REPORTS_FOLDER = "reports_folder_id";
     private static final String BANK_QUERY_FILE = "bank_query_id_file";
+    private static final String CLIENT_REMINDERS_FILE = "client_reminders";
 
     private static final String TAG = "ReceiveActivity";
     private static GoogleApiClient mGoogleApiClient;
@@ -57,7 +58,7 @@ public class ReceiveActivity extends Activity {
 
     ImageView bankView_;
     ImageView reportsView_;
-
+    ImageView reminderView_;
     /**
      * Represents the file picked by the user.
      */
@@ -82,10 +83,16 @@ public class ReceiveActivity extends Activity {
             String id = args.getString(getString(R.string.id_key));
             if (id != null) {
                 if ((selectedFolderId_ != null)||( getId(REPORTS_FOLDER) !=null)) {
-                    String testId = getId(REPORTS_FOLDER);
                     if (id.equals(getId(REPORTS_FOLDER))) {
                         reportsView_ = (ImageView)findViewById(R.id.reports_view);
                         reportsView_.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                if ((remindersFileId_ != null)||(getId(CLIENT_REMINDERS_FILE)!=null)){
+                    if (id.equals(getId(CLIENT_REMINDERS_FILE))){
+                        reminderView_ = (ImageView)findViewById(R.id.reminder_view);
+                        reminderView_.setVisibility(View.VISIBLE);
                     }
                 }
                 if ((bankQueryFileId_ != null)||( getId(BANK_QUERY_FILE) !=null)) {
@@ -139,8 +146,6 @@ public class ReceiveActivity extends Activity {
             mGoogleApiClient.connect();
         }
     }
-
-
 
     private String getId(String key){
         SharedPreferences prefs = this.getSharedPreferences(

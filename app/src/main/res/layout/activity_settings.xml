@@ -10,16 +10,30 @@
               tools:context=".activity.SettingsActivity">
 
     <Button
-        android:id="@+id/enable_report_listening_btn"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="@string/enable_report_listening"/>
-
-    <Button
         android:id="@+id/enable_query_listening_btn"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/custom_button"
         android:text="@string/enable_query_listening"/>
+
+
+    <Button
+        android:id="@+id/enable_client_reminders_listening_btn"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/custom_button"
+        android:text="@string/enable_client_reminders_listening"/>
+
+
+    <Button
+        android:id="@+id/enable_report_listening_btn"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/custom_button"
+        android:text="@string/enable_report_listening"/>
 
 
 </LinearLayout>

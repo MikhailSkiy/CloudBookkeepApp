@@ -29,19 +29,23 @@ public class SettingsActivity extends Activity {
 
     private Button selectFolderBtn_;
     private Button enableQueryBtn_;
+    private Button enableReminderBtn_;
     private static final int REQUEST_CODE_OPENER = 5;
     private static final int REQUEST_CODE_QUERY = 6;
+    private static final int REMINDER_CODE_QUERY = 7;
 
     private static final String TAG = "ReceiveActivity";
 
     private static final String REPORTS_FOLDER = "reports_folder_id";
     private static final String BANK_QUERY_FILE = "bank_query_id_file";
+    private static final String CLIENT_REMINDERS_FILE = "client_reminders";
     private static GoogleApiClient mGoogleApiClient;
 
     /**
      * Represents the file picked by the user.
      */
     public static DriveId selectedFolderId_;
+    public static DriveId reminderFileId_;
     public static DriveId bankQueryFileId_;
 
     /**
@@ -59,11 +63,19 @@ public class SettingsActivity extends Activity {
         Toaster.makeLongToast(SettingsActivity.this, getResources().getString(R.string.folder_listener_tip), 15000);
         selectFolderBtn_ = (Button)findViewById(R.id.enable_report_listening_btn);
         enableQueryBtn_ = (Button)findViewById(R.id.enable_query_listening_btn);
+        enableReminderBtn_ = (Button)findViewById(R.id.enable_client_reminders_listening_btn);
 
         selectFolderBtn_.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectFolderForChangeListening();
+            }
+        });
+
+        enableReminderBtn_.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectFileForReminders();
             }
         });
 
@@ -145,6 +157,35 @@ public class SettingsActivity extends Activity {
                 });
     }
 
+    private void     selectFileForReminders(){
+        Drive.DriveApi.newDriveContents(mGoogleApiClient)
+                .setResultCallback(new ResultCallback<DriveApi.DriveContentsResult>() {
+
+                    @Override
+                    public void onResult(DriveApi.DriveContentsResult result) {
+                        // If the operation was not successful, we cannot do anything
+                        // and must
+                        // fail.
+                        if (!result.getStatus().isSuccess()) {
+
+                            return;
+                        }
+
+                        // Create an intent for the file chooser, and start it.
+                        IntentSender intentSender = Drive.DriveApi
+                                .newOpenFileActivityBuilder()
+                                .setMimeType(new String[]{"application/vnd.google-apps.spreadsheet"})
+                                .build(mGoogleApiClient);
+                        try {
+                            startIntentSenderForResult(
+                                    intentSender, REMINDER_CODE_QUERY, null, 0, 0, 0);
+                        } catch (IntentSender.SendIntentException e) {
+
+                        }
+                    }
+                });
+    }
+
     private void writeId(String key, String id){
         SharedPreferences.Editor prefs = this.getSharedPreferences(
                 "com.example.app", Context.MODE_PRIVATE).edit();
@@ -174,6 +215,16 @@ public class SettingsActivity extends Activity {
                     toggle2();
                 }
                 break;
+
+            case REMINDER_CODE_QUERY:
+                if (resultCode == RESULT_OK){
+                    reminderFileId_ = (DriveId)data.getParcelableExtra(OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
+                    // Write Id in SharedPreferences
+                    writeId(CLIENT_REMINDERS_FILE,reminderFileId_.toString());
+                    toggleReminder();
+                }
+                break;
+
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
@@ -230,6 +281,19 @@ public class SettingsActivity extends Activity {
         }
         Toast.makeText(SettingsActivity.this,getResources().getString(R.string.queries_folder_listener_status),Toast.LENGTH_LONG).show();
         //refresh();
+    }
+
+    private void toggleReminder(){
+        if (reminderFileId_ == null){
+            return;
+        }
+        synchronized (mSubscriptionStatusLock){
+            DriveFile file = Drive.DriveApi.getFile(mGoogleApiClient,reminderFileId_);
+            file.addChangeSubscription(mGoogleApiClient);
+            isSubscribed = true;
+            enableReminderBtn_.setText(getResources().getString(R.string.enable_client_reminders_listening)+" (enabled)");
+        }
+        Toast.makeText(SettingsActivity.this,getResources().getString(R.string.reminders_file_listener_status),Toast.LENGTH_LONG).show();
     }
 
 

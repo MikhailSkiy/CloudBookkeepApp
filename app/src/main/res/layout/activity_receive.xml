@@ -21,6 +21,8 @@
             android:id="@+id/bank_query_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:background="@drawable/custom_button"
             android:text="@string/bank_query_text"/>
 
         <ImageView
@@ -34,12 +36,32 @@
 
     </FrameLayout>
 
-    <Button
-        android:id="@+id/reminder_btn"
+    <FrameLayout
+        android:id="@+id/reminder_frame"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="@string/reminders_text"/>
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/reminder_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/custom_button"
+            android:text="@string/reminders_text"/>
+
+        <ImageView
+            android:id="@+id/reminder_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_alert_circle_grey"
+            android:visibility="invisible"/>
+
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/reports_frame"
@@ -52,6 +74,8 @@
             android:id="@+id/reports_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:background="@drawable/custom_button"
             android:text="@string/reports_text"/>
 
         <ImageView
@@ -64,6 +88,5 @@
             android:visibility="invisible"/>
 
     </FrameLayout>
-
 
 </LinearLayout>

@@ -86,7 +86,7 @@ public class SendActivity extends Activity {
                         // Create the initial metadata - MIME type and title.
                         // Note that the user will be able to change the title later.
                         MetadataChangeSet metadataChangeSet = new MetadataChangeSet.Builder()
-                                .setMimeType("image/jpeg").setTitle("Date.Expense.png").build();
+                                .setMimeType("image/jpeg").setTitle("Date.Title.png").build();
                         // Create an intent for the file chooser, and start it.
                         IntentSender intentSender = Drive.DriveApi
                                 .newCreateFileActivityBuilder()

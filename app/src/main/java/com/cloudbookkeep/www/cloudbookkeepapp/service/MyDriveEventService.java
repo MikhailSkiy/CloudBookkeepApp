@@ -24,6 +24,7 @@ public class MyDriveEventService extends DriveEventService {
 
     private static final int REPORTS_NOTIFICATION = 1;
     private static final int QUERIES_NOTIFICATION = 2;
+    private static final int REMINDER_NOTIFICATION = 3;
 
     @Override
     public void onChange(ChangeEvent event){
@@ -35,8 +36,9 @@ public class MyDriveEventService extends DriveEventService {
             sendNotification(REPORTS_NOTIFICATION,id);
         } else if (resourseId.equals(SettingsActivity.bankQueryFileId_)){
             sendNotification(QUERIES_NOTIFICATION,id);
+        } else if (resourseId.equals(SettingsActivity.reminderFileId_)){
+            sendNotification(REMINDER_NOTIFICATION,id);
         }
-
     }
 
     private void sendNotification(int notificationType,String id) {
@@ -53,16 +55,18 @@ public class MyDriveEventService extends DriveEventService {
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
         builder.setDefaults(Notification.DEFAULT_ALL);
 
-        if (notificationType==1) {
+        if (notificationType == 1) {
             builder.setContentTitle("Reports notification");
             builder.setContentText("The reports in Reports folder were updated!");
             builder.setSubText("Tap to view changes.");
-        } else if (notificationType ==2){
-            if (notificationType==2) {
-                builder.setContentTitle("Queries notification");
-                builder.setContentText("The queries in Bank queries folder were updated!");
-                builder.setSubText("Tap to view changes.");
-            }
+        } else if (notificationType == 2) {
+            builder.setContentTitle("Queries notification");
+            builder.setContentText("The queries in Bank queries folder were updated!");
+            builder.setSubText("Tap to view changes.");
+        } else if (notificationType == 3){
+            builder.setContentTitle("Reminder notification");
+            builder.setContentText("The file in Reminders folder was updated!");
+            builder.setSubText("Tap to view changes.");
         }
 
         NotificationManager notificationManager = (NotificationManager)this.getSystemService(
