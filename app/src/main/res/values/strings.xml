@@ -27,13 +27,13 @@
     <string name="send_task_request_text">Send Task Request</string>
 
     <string name="succesfull_uploading">The file was uploaded successfully</string>
-    <string name="choose_send_folder_tip">Please select "Send (To Do)" folder and after todo google form</string>
+    <string name="choose_send_folder_tip">Please complete Request Form in 4. Bookkeeper To-do (Send)</string>
     <string name="choose_file_name_tip">Please upload file in the recommended format (like 20/5/15.bankstatement.png</string>
 
     <!-- Values for receive activity -->
-    <string name="bank_query_text">Answer bank query</string>
-    <string name="reminders_text">Reminders</string>
-    <string name="reports_text">View reports</string>
+    <string name="bank_query_text">Bank query requests</string>
+    <string name="reminders_text">Client reminders</string>
+    <string name="reports_text">Reports</string>
     <string name="title_activity_settings">Settings</string>
     <string name="choose_bank_query_folder_tip">Please select "Bank query" folder and after query file</string>
     <string name="choose_reminders_folder_tip">Please select "Reminders" folder and after file</string>
